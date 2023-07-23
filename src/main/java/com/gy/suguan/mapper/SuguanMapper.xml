@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.suguan.mapper.SuguanMapper">
+  <resultMap id="BaseResultMap" type="com.gy.suguan.model.Suguan">
+    <id column="suguan_id" jdbcType="VARCHAR" property="suguanId" />
+    <result column="suguan_name" jdbcType="VARCHAR" property="suguanName" />
+    <result column="suguan_mobile" jdbcType="VARCHAR" property="suguanMobile" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    suguan_id, suguan_name, suguan_mobile
+  </sql>
+  <select id="selectByExample" parameterType="com.gy.suguan.model.SuguanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gy_suguan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gy_suguan
+    where suguan_id = #{suguanId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from gy_suguan
+    where suguan_id = #{suguanId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gy.suguan.model.SuguanExample">
+    delete from gy_suguan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gy.suguan.model.Suguan">
+    insert into gy_suguan (suguan_id, suguan_name, suguan_mobile
+      )
+    values (#{suguanId,jdbcType=VARCHAR}, #{suguanName,jdbcType=VARCHAR}, #{suguanMobile,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gy.suguan.model.Suguan">
+    insert into gy_suguan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="suguanId != null">
+        suguan_id,
+      </if>
+      <if test="suguanName != null">
+        suguan_name,
+      </if>
+      <if test="suguanMobile != null">
+        suguan_mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="suguanId != null">
+        #{suguanId,jdbcType=VARCHAR},
+      </if>
+      <if test="suguanName != null">
+        #{suguanName,jdbcType=VARCHAR},
+      </if>
+      <if test="suguanMobile != null">
+        #{suguanMobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gy.suguan.model.SuguanExample" resultType="java.lang.Long">
+    select count(*) from gy_suguan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update gy_suguan
+    <set>
+      <if test="record.suguanId != null">
+        suguan_id = #{record.suguanId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suguanName != null">
+        suguan_name = #{record.suguanName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suguanMobile != null">
+        suguan_mobile = #{record.suguanMobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update gy_suguan
+    set suguan_id = #{record.suguanId,jdbcType=VARCHAR},
+      suguan_name = #{record.suguanName,jdbcType=VARCHAR},
+      suguan_mobile = #{record.suguanMobile,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gy.suguan.model.Suguan">
+    update gy_suguan
+    <set>
+      <if test="suguanName != null">
+        suguan_name = #{suguanName,jdbcType=VARCHAR},
+      </if>
+      <if test="suguanMobile != null">
+        suguan_mobile = #{suguanMobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where suguan_id = #{suguanId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gy.suguan.model.Suguan">
+    update gy_suguan
+    set suguan_name = #{suguanName,jdbcType=VARCHAR},
+      suguan_mobile = #{suguanMobile,jdbcType=VARCHAR}
+    where suguan_id = #{suguanId,jdbcType=VARCHAR}
+  </update>
+</mapper>
